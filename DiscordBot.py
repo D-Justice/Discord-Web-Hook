@@ -4,49 +4,71 @@ import pprint
 #A99BA5E1EEDC4073B16C4691209AFE1F
 #76561198054487316
 headers = {'TRN-Api-Key': '8ea28dd0-b8e9-4449-a66b-9531310dd37e'}
-WebHook = "https://discordapp.com/api/webhooks/820460456027750476/Ojm4aWrFAvFCzCiFzyEMJWQgS8pY_0N4idfFq7jy11djbhnbOUDWYPSnG5QwSIg3G6iv"
-apiURL = requests.get("https://public-api.tracker.gg/v2/csgo/standard/profile/steam/76561198054487316", headers = headers)
+user = input("Enter players Steam name, id, or URL: ")
+WebHook = "https://discordapp.com/api/webhooks/820459719856357417/yWgUi6Kefaq735ZExao5OG9h0dnPyXMAoMR1anBDjRBH-ZJG3TMd5dqUKGfR-kynB8XI"
+apiURL = requests.get("https://public-api.tracker.gg/v2/csgo/standard/profile/steam/{}".format(user), headers = headers)
 
 def jprint(obj):
 
     text = json.dumps(obj, sort_keys=True, indent=4)
     print(text)
 #jprint(apiURL.json())
-
-userName = apiURL.json()['data']['platformInfo']['platformUserHandle']
-bombsDef = apiURL.json()['data']['segments'][0]['stats']['bombsDefused']['displayValue']
-bombsPlanted = apiURL.json()['data']['segments'][0]['stats']['bombsPlanted']['displayValue']
-deaths = apiURL.json()['data']['segments'][0]['stats']['deaths']['displayValue']
-kd = apiURL.json()['data']['segments'][0]['stats']['kd']['displayValue']
-kills = apiURL.json()['data']['segments'][0]['stats']['kills']['displayValue']
-losses = apiURL.json()['data']['segments'][0]['stats']['losses']['displayValue']
-wins = apiURL.json()['data']['segments'][0]['stats']['wins']['displayValue']
-winLoss = apiURL.json()['data']['segments'][0]['stats']['wlPercentage']['displayValue']
-matches = apiURL.json()['data']['segments'][0]['stats']['matchesPlayed']['displayValue']
-
+try:
+    userName = apiURL.json()['data']['platformInfo']['platformUserHandle']
+    bombsDef = apiURL.json()['data']['segments'][0]['stats']['bombsDefused']['displayValue']
+    bombsPlanted = apiURL.json()['data']['segments'][0]['stats']['bombsPlanted']['displayValue']
+    deaths = apiURL.json()['data']['segments'][0]['stats']['deaths']['displayValue']
+    kd = apiURL.json()['data']['segments'][0]['stats']['kd']['displayValue']
+    kills = apiURL.json()['data']['segments'][0]['stats']['kills']['displayValue']
+    losses = apiURL.json()['data']['segments'][0]['stats']['losses']['displayValue']
+    wins = apiURL.json()['data']['segments'][0]['stats']['wins']['displayValue']
+    winLoss = apiURL.json()['data']['segments'][0]['stats']['wlPercentage']['displayValue']
+    matches = apiURL.json()['data']['segments'][0]['stats']['matchesPlayed']['displayValue']
+except:
+    print("No user by this name found. Try again")
+    quit()
 
 hookData = {
-    "username": "WebHook",
-    "content": "CSGO player stats for {}".format(userName),
-    "embeds": [
+  "username": "Webhook",
+  "avatar_url": "https://cdn.ndtv.com/tech/gadgets/cs_go_header_valve.jpg",
+  "embeds": [
+    {
+      "author": {
+        "name": "STAT BOYY",
+        "url": "https://store.steampowered.com/app/730/CounterStrike_Global_Offensive/",
+        "icon_url": "https://cdn.mos.cms.futurecdn.net/5zHA4DXhWdQfiyaBKXeQyg.jpg"
+      },
+      "title": "CS:GO STATS FOR: {}".format(userName),
+      "fields": [
         {
-            "author": {
-                "name": "Hook BOY"
-            },
-            "title": "Kills:",
-            "color": 15258703,
-            "fields": [
-                {
-                "name": "",
-                "value": 'kills',
-                "inline": True
-                
-                }
-            
-            ]
+          "name": "Bombs:",
+          "value": "Defuses: {}\n Plants: {}".format(bombsDef, bombsPlanted),
+          "inline": True
+        },
+        {
+          "name": "Kills:".format(kills),
+          "value": "Kills: {}\nK/D: {}".format(kills,kd),
+          "inline": True
+        },
+        {
+            "name": "Out of {} matches:".format(matches),
+            "value": "{} had:\n{} wins\n{} losses\nWith a winrate of {}".format(userName,wins,losses,winLoss),
+            "inline": True
+        },
+        {
+            "name": "Deaths",
+            "value": "You have died {} times".format(deaths),
+            "inline": True
         }
-    ]
+        
+      ],
+      "image": {
+          "url": "https://cdn.ndtv.com/tech/gadgets/cs_go_header_valve.jpg"
+      },
+    }
+  ]
 }
+
 
 send = requests.post(WebHook, json = hookData)
 try:
