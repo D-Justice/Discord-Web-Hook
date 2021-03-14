@@ -12,7 +12,7 @@ def jprint(obj):
 
     text = json.dumps(obj, sort_keys=True, indent=4)
     print(text)
-#jprint(apiURL.json())
+
 try:
     userName = apiURL.json()['data']['platformInfo']['platformUserHandle']
     bombsDef = apiURL.json()['data']['segments'][0]['stats']['bombsDefused']['displayValue']
