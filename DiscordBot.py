@@ -5,7 +5,7 @@ import auth
 
 headers = {'TRN-Api-Key': '{}'.format(auth.authenticate)}
 user = input("Enter players Steam name, id, or URL: ")
-WebHook = "https://discordapp.com/api/webhooks/820459719856357417/yWgUi6Kefaq735ZExao5OG9h0dnPyXMAoMR1anBDjRBH-ZJG3TMd5dqUKGfR-kynB8XI"
+WebHook = auth.WEBHOOK
 apiURL = requests.get("https://public-api.tracker.gg/v2/csgo/standard/profile/steam/{}".format(user), headers = headers)
 
 def jprint(obj):
