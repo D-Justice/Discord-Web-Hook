@@ -1,9 +1,10 @@
 import json
 import requests
 import pprint
+import auth
 #A99BA5E1EEDC4073B16C4691209AFE1F
 #76561198054487316
-headers = {'TRN-Api-Key': '8ea28dd0-b8e9-4449-a66b-9531310dd37e'}
+headers = {'TRN-Api-Key': '{}'.format(auth.authenticate)}
 user = input("Enter players Steam name, id, or URL: ")
 WebHook = "https://discordapp.com/api/webhooks/820459719856357417/yWgUi6Kefaq735ZExao5OG9h0dnPyXMAoMR1anBDjRBH-ZJG3TMd5dqUKGfR-kynB8XI"
 apiURL = requests.get("https://public-api.tracker.gg/v2/csgo/standard/profile/steam/{}".format(user), headers = headers)
@@ -34,7 +35,7 @@ hookData = {
   "embeds": [
     {
       "author": {
-        "name": "STAT BOYY",
+        "name": "STAT BOY",
         "url": "https://store.steampowered.com/app/730/CounterStrike_Global_Offensive/",
         "icon_url": "https://cdn.mos.cms.futurecdn.net/5zHA4DXhWdQfiyaBKXeQyg.jpg"
       },
